@@ -9,6 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -24,19 +25,22 @@ import com.ceejii.search.ExampleSearchProvider;
 import com.ceejii.search.SearchProvider;
 
 
-//TODO: Add Searcher composite object and interface for it. Add default search implementation.
+//DONE: Add Searcher composite object and interface for it. Add default search implementation.
 
-//TODO: Decide how to handle search delays. In Searcher or SearchSuggestionComponent
+//DONE: Add Quick and Full search functionality where Full is triggered by Enter key. 
 
-//TODO: Add Quick and Full search functionality where Full is triggered by Enter key. 
-
-//TODO: Use nicer looking components for example search.
-
-//TODO: internationalization or get/set for search instruction.
+//DONE: internationalization or get/set for search instruction.
 
 //TODO: Support for actions when clicking a search suggestion
 
 //TODO: Support for actions when hovering over a search suggestion
+
+//TODO: Add support for notifying containing windows to resize.
+
+//TODO: Use nicer looking components for example search.
+
+//TODO: Decide how to handle search delays. In Searcher or SearchSuggestionComponent
+
 
 
 /**
@@ -45,11 +49,11 @@ import com.ceejii.search.SearchProvider;
  * @author Christoffer Jonsson
  *
  */
-public class SearchSuggestionComponent extends JPanel {
+public class SearchSuggestionComponent extends JPanel implements SearchSuggestionDisplayer {
 
 	private static final long serialVersionUID = -8154225394939376705L;
 
-	private static final String SEARCH_INSTRUCTION = "Skriv en plats";
+	private String searchInstruction = "Skriv en plats";
 	private JPanel suggestionsPanel = null;
 
 	protected SearchProvider searchProvider;
@@ -74,7 +78,7 @@ public class SearchSuggestionComponent extends JPanel {
 	}
 
 	private JComponent buildSearchField(Container parent) {
-		JTextField searchField = new JTextField(SEARCH_INSTRUCTION);
+		JTextField searchField = new JTextField(searchInstruction);
 		searchField.setPreferredSize(new Dimension(100,24));
 		MouseAdapter mouseListener = new MouseAdapter(){
 			@Override
@@ -89,10 +93,17 @@ public class SearchSuggestionComponent extends JPanel {
 			@Override
 			public void keyPressed(KeyEvent event) {
 				super.keyPressed(event);
-				String searchStringBeforeKeyPress = ((JTextField)event.getSource()).getText();
-				if(searchStringBeforeKeyPress.equals(SearchSuggestionComponent.SEARCH_INSTRUCTION)){
+				JTextField jTextField = (JTextField)event.getSource();
+				String searchStringBeforeKeyPress = jTextField.getText();
+				if(searchStringBeforeKeyPress.equals(searchInstruction)){
 					//Key pressed in search field but the search field contains the default instruction, remove the default text first!
-					((JTextField)event.getSource()).setText("");
+					jTextField.setText("");
+					//Remove all mouselisteners so a mouse-click won't remove the search instruction as well.
+					//NOTE: Assumes there is only one mouselistener that removes search instruction.
+					MouseListener[] mouseListeners = jTextField.getMouseListeners();
+					for (int i = 0; i < mouseListeners.length; i++) {
+						jTextField.removeMouseListener(mouseListeners[i]);
+					}
 				}
 			}
 			@Override
@@ -114,31 +125,15 @@ public class SearchSuggestionComponent extends JPanel {
 		return searchField;
 	}
 
-	protected void searchForString(String searchString) {
-//		List<String> db = new ArrayList<String>();
-//		db.add("Stockholm");
-//		db.add("Göteborg");
-//		db.add("Malmö");
-//		db.add("Stockport");
-//		List<String> results = new ArrayList<String>();
-//		String lowerCase = searchString.toLowerCase();
-//		if (!searchString.equals("")) {
-//			for (String line : db) {
-//				if (line.toLowerCase().startsWith(lowerCase)) {
-//					results.add(line);
-//				}
-//			}
-//		}
-//		showSearchResults(results);
-//		((JFrame)this.getTopLevelAncestor()).pack();
-	}
-
 	public void showSearchResults(List<String> results) {
 		if(results == null){
 			return;
 		}
-		 List<JComponent> componentList = buildSearchResultsComponentList(results);
-		 showSearchResultsComponents(componentList);
+		List<JComponent> componentList = buildSearchResultsComponentList(results);
+		showSearchResultsComponents(componentList);
+
+		//TODO: Update parent to pack around the displayed results.
+		this.getParent();
 	}
 
 	private List<JComponent> buildSearchResultsComponentList(List<String> results) {
@@ -161,5 +156,13 @@ public class SearchSuggestionComponent extends JPanel {
 			suggestionsPanel.add(result);
 		}
 		add(suggestionsPanel);
+	}
+
+	public String getSearchInstruction() {
+		return searchInstruction;
+	}
+
+	public void setSearchInstruction(String searchInstruction) {
+		this.searchInstruction = searchInstruction;
 	}
 }

@@ -6,12 +6,13 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import com.ceejii.gui.component.SearchSuggestionComponent;
+import com.ceejii.gui.component.SearchSuggestionDisplayer;
 
 public class ExampleSearchProvider implements SearchProvider {
 
 	@Override
 	public void quickSearchForString(String searchString,
-			SearchSuggestionComponent view) {
+			SearchSuggestionDisplayer view) {
 		//TODO: This near circular dependency of the Component being sent to the 
 		// search provider and the provider being composite in the Component is a
 		// little awkward I think. Redesign? MVC?
@@ -30,13 +31,12 @@ public class ExampleSearchProvider implements SearchProvider {
 			}
 		}
 		view.showSearchResults(results);
-		((JFrame)view.getTopLevelAncestor()).pack();
 
 	}
 
 	@Override
 	public void fullSearchForString(String searchString,
-			SearchSuggestionComponent component) {
+			SearchSuggestionDisplayer view) {
 		System.out.println("Full search (Enter key pressed).");
 	}
 
