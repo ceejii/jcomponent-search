@@ -20,6 +20,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.ceejii.search.ExampleSearchProvider;
+import com.ceejii.search.SearchProvider;
+
 
 //TODO: Add Searcher composite object and interface for it. Add default search implementation.
 
@@ -49,7 +52,13 @@ public class SearchSuggestionComponent extends JPanel {
 	private static final String SEARCH_INSTRUCTION = "Skriv en plats";
 	private JPanel suggestionsPanel = null;
 
-	public SearchSuggestionComponent(){
+	protected SearchProvider searchProvider;
+
+	public SearchSuggestionComponent(SearchProvider searchProvider){
+		if(searchProvider == null) {
+			throw new NullPointerException("SearchProvider for SearchSuggestionComponent must not be null.");
+		}
+		this.searchProvider = searchProvider;
 		setupLayout(this);
 		add(buildSearchField(this));
 		buildSearchSuggestions();
@@ -91,7 +100,13 @@ public class SearchSuggestionComponent extends JPanel {
 				// Handles normal key entry by searching for the string.
 				super.keyPressed(event);
 				String searchString = ((JTextField)event.getSource()).getText();
-				searchForString(searchString);
+				SearchSuggestionComponent component =SearchSuggestionComponent.this;
+				SearchProvider provider = component.searchProvider;
+				if(event.getKeyCode() == KeyEvent.VK_ENTER){
+					provider.fullSearchForString(searchString, component);
+				} else {
+					provider.quickSearchForString(searchString, component);
+				}
 				System.out.println(searchString);
 			}
 		};
@@ -100,22 +115,22 @@ public class SearchSuggestionComponent extends JPanel {
 	}
 
 	protected void searchForString(String searchString) {
-		List<String> db = new ArrayList<String>();
-		db.add("Stockholm");
-		db.add("Göteborg");
-		db.add("Malmö");
-		db.add("Stockport");
-		List<String> results = new ArrayList<String>();
-		String lowerCase = searchString.toLowerCase();
-		if (!searchString.equals("")) {
-			for (String line : db) {
-				if (line.toLowerCase().startsWith(lowerCase)) {
-					results.add(line);
-				}
-			}
-		}
-		showSearchResults(results);
-		((JFrame)this.getTopLevelAncestor()).pack();
+//		List<String> db = new ArrayList<String>();
+//		db.add("Stockholm");
+//		db.add("Göteborg");
+//		db.add("Malmö");
+//		db.add("Stockport");
+//		List<String> results = new ArrayList<String>();
+//		String lowerCase = searchString.toLowerCase();
+//		if (!searchString.equals("")) {
+//			for (String line : db) {
+//				if (line.toLowerCase().startsWith(lowerCase)) {
+//					results.add(line);
+//				}
+//			}
+//		}
+//		showSearchResults(results);
+//		((JFrame)this.getTopLevelAncestor()).pack();
 	}
 
 	public void showSearchResults(List<String> results) {
