@@ -31,11 +31,11 @@ import com.ceejii.search.SearchProvider;
 
 //DONE: internationalization or get/set for search instruction.
 
+//DONE: Fix resizing problems that depends on how what hierarchy of containg containers exist.
+
 //TODO: Support for actions when clicking a search suggestion
 
 //TODO: Support for actions when hovering over a search suggestion
-
-//TODO: Add support for notifying containing windows to resize.
 
 //TODO: Use nicer looking components for example search.
 
@@ -131,9 +131,7 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 		}
 		List<JComponent> componentList = buildSearchResultsComponentList(results);
 		showSearchResultsComponents(componentList);
-
-		//TODO: Update parent to pack around the displayed results.
-		this.getParent();
+		this.revalidate();
 	}
 
 	private List<JComponent> buildSearchResultsComponentList(List<String> results) {

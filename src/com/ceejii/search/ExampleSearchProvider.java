@@ -13,9 +13,7 @@ public class ExampleSearchProvider implements SearchProvider {
 	@Override
 	public void quickSearchForString(String searchString,
 			SearchSuggestionDisplayer view) {
-		//TODO: This near circular dependency of the Component being sent to the 
-		// search provider and the provider being composite in the Component is a
-		// little awkward I think. Redesign? MVC?
+		//NOTE: For future Java versions the view could instead be a function pointer/lambda that handles the display of the result.
 		List<String> db = new ArrayList<String>();
 		db.add("Stockholm");
 		db.add("Göteborg");
