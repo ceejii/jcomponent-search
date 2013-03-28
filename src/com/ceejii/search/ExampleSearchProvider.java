@@ -10,7 +10,6 @@ import com.ceejii.gui.component.SearchSuggestionDisplayer;
 
 public class ExampleSearchProvider implements SearchProvider {
 
-	@Override
 	public void quickSearchForString(String searchString,
 			SearchSuggestionDisplayer view) {
 		//NOTE: For future Java versions the view could instead be a function pointer/lambda that handles the display of the result.
@@ -32,7 +31,6 @@ public class ExampleSearchProvider implements SearchProvider {
 
 	}
 
-	@Override
 	public void fullSearchForString(String searchString,
 			SearchSuggestionDisplayer view) {
 		System.out.println("Full search (Enter key pressed).");

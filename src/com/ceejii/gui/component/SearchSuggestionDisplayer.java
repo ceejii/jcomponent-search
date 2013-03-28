@@ -6,8 +6,8 @@ import javax.swing.JComponent;
 
 public interface SearchSuggestionDisplayer {
 
-	void showSearchResults(List<String> results);
+	void showSearchResults(List<String> names);
 
-	void showSearchResultsComponents(List<JComponent> results);
+	<T extends JComponent & SearchSuggestion> void showSearchResultsComponents(List<T> results);
 
 }

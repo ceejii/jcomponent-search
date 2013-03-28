@@ -6,6 +6,7 @@ import java.awt.event.ComponentListener;
 
 import javax.swing.JFrame;
 
+import com.ceejii.gui.ExampleSearchSuggestionListener;
 import com.ceejii.gui.component.SearchSuggestionComponent;
 import com.ceejii.search.ExampleSearchProvider;
 
@@ -24,20 +25,17 @@ public class ExampleStartup {
 		window.pack();
 		window.setVisible(true);
 		searchSuggestionComponent.addComponentListener(new ComponentListener(){
-			@Override
 			public void componentHidden(ComponentEvent arg0) {
 			}
-			@Override
 			public void componentMoved(ComponentEvent arg0) {
 			}
-			@Override
 			public void componentResized(ComponentEvent arg0) {
 				window.pack();
 			}
-			@Override
 			public void componentShown(ComponentEvent arg0) {
 			}
 		});
+		searchSuggestionComponent.addSearchSuggestionListener(new ExampleSearchSuggestionListener());
 	}
 
 }

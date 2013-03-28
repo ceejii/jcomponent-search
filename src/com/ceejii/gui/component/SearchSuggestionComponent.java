@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.ceejii.gui.ExampleSearchSuggestionListener;
 import com.ceejii.search.ExampleSearchProvider;
 import com.ceejii.search.SearchProvider;
 
@@ -125,24 +126,49 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 		return searchField;
 	}
 
-	public void showSearchResults(List<String> results) {
-		if(results == null){
+	/**
+	 * Shows the results in the search suggestion component.
+	 * 
+	 * @param names the List of name strings.
+	 * @param ids the List of id strings.
+	 * @param clues the list of clue strings.
+	 */
+	public void showSearchResults(List<String> names) {
+		if(names == null){
 			return;
 		}
-		List<JComponent> componentList = buildSearchResultsComponentList(results);
+		List<ExampleSearchResultButton> componentList = buildSearchResultsComponentList(names);
 		showSearchResultsComponents(componentList);
 		this.revalidate();
 	}
 
-	private List<JComponent> buildSearchResultsComponentList(List<String> results) {
-		List<JComponent> list = new ArrayList<JComponent>();
-		for (String result : results) {
-			list.add(new JButton(result));
+	private List<ExampleSearchResultButton> buildSearchResultsComponentList(List<String> names) {
+		List<ExampleSearchResultButton> list = new ArrayList<ExampleSearchResultButton>();
+		String[] namesArray = new String[names.size()];
+		namesArray = names.toArray(namesArray);
+		String name;
+//		String[] idsArray = (String[]) ids.toArray();
+//		String id;
+//		String[] cluesArray = (String[]) clues.toArray();
+//		String clue;
+		for (int i = 0; i < namesArray.length; i++) {
+			name = namesArray[i];
+//			if(idsArray.length >= i){
+//				id = idsArray[i];
+//			} else {
+//				id = "";
+//			}
+//			if(cluesArray.length >= i){
+//				clue = cluesArray[i];
+//			} else {
+//				clue = "";
+//			}
+			list.add(new ExampleSearchResultButton(name, name, name));
 		}
 		return list;
 	}
 	
-	public void showSearchResultsComponents(List<JComponent> results) {
+	public <T extends JComponent & SearchSuggestion> void showSearchResultsComponents(List<T> results) {
 		if(suggestionsPanel == null) {
 			suggestionsPanel = new JPanel();
 		} else {
@@ -151,6 +177,9 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 		BoxLayout boxLayout = new BoxLayout(suggestionsPanel, BoxLayout.PAGE_AXIS);
 		suggestionsPanel.setLayout(boxLayout);
 		for (JComponent result : results) {
+			if(!(result instanceof SearchSuggestion)) {
+				throw new IllegalArgumentException("Programming error. Search results must implement the SearchSuggestion interface.");
+			}
 			suggestionsPanel.add(result);
 		}
 		add(suggestionsPanel);
@@ -163,4 +192,5 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 	public void setSearchInstruction(String searchInstruction) {
 		this.searchInstruction = searchInstruction;
 	}
+
 }
