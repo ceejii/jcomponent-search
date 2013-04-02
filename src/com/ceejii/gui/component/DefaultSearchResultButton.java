@@ -20,8 +20,8 @@ public class DefaultSearchResultButton extends JButton implements SearchSuggesti
 		super(name);
 		this.name = name;
 		this.id = id;
-		this.setToolTipText(this.clue);
 		this.clue = clue;
+		this.setToolTipText(this.clue);
 		this.addMouseListener(new MouseListener(){
 
 			public void mouseClicked(MouseEvent arg0) {
