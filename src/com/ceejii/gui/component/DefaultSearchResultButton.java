@@ -39,7 +39,7 @@ public class DefaultSearchResultButton extends JButton implements SearchSuggesti
 			public void mouseExited(MouseEvent arg0) {
 				System.out.println("Mouse Exited over button: " + DefaultSearchResultButton.this.getText() + " " + DefaultSearchResultButton.this.name);
 				if(searchSuggestionListener != null){
-					searchSuggestionListener.resultHovered(new ActionEvent(DefaultSearchResultButton.this,0,DefaultSearchResultButton.this.getToolTipText()));
+					searchSuggestionListener.resultNoLongerHovered(new ActionEvent(DefaultSearchResultButton.this,0,DefaultSearchResultButton.this.getToolTipText()));
 				}
 			}
 
