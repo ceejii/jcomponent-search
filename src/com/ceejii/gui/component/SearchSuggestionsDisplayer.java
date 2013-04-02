@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.swing.JComponent;
 
-public interface SearchSuggestionDisplayer {
+import com.ceejii.gui.data.SearchSuggestion;
+
+public interface SearchSuggestionsDisplayer {
 
 	void showSearchResults(List<String> names);
 

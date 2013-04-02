@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.ceejii.gui.ExampleSearchSuggestionListener;
+import com.ceejii.gui.data.SearchSuggestion;
 import com.ceejii.search.ExampleSearchProvider;
 import com.ceejii.search.SearchProvider;
 
@@ -50,7 +51,7 @@ import com.ceejii.search.SearchProvider;
  * @author Christoffer Jonsson
  *
  */
-public class SearchSuggestionComponent extends JPanel implements SearchSuggestionDisplayer {
+public class SearchSuggestionComponent extends JPanel implements SearchSuggestionsDisplayer {
 
 	private static final long serialVersionUID = -8154225394939376705L;
 
@@ -137,13 +138,13 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 		if(names == null){
 			return;
 		}
-		List<ExampleSearchResultButton> componentList = buildSearchResultsComponentList(names);
+		List<DefaultSearchResultButton> componentList = buildSearchResultsComponentList(names);
 		showSearchResultsComponents(componentList);
 		this.revalidate();
 	}
 
-	private List<ExampleSearchResultButton> buildSearchResultsComponentList(List<String> names) {
-		List<ExampleSearchResultButton> list = new ArrayList<ExampleSearchResultButton>();
+	private List<DefaultSearchResultButton> buildSearchResultsComponentList(List<String> names) {
+		List<DefaultSearchResultButton> list = new ArrayList<DefaultSearchResultButton>();
 		String[] namesArray = new String[names.size()];
 		namesArray = names.toArray(namesArray);
 		String name;
@@ -151,6 +152,7 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 //		String id;
 //		String[] cluesArray = (String[]) clues.toArray();
 //		String clue;
+		ExampleSearchSuggestionListener listener = new ExampleSearchSuggestionListener();
 		for (int i = 0; i < namesArray.length; i++) {
 			name = namesArray[i];
 //			if(idsArray.length >= i){
@@ -163,7 +165,9 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 //			} else {
 //				clue = "";
 //			}
-			list.add(new ExampleSearchResultButton(name, name, name));
+			DefaultSearchResultButton exampleSearchResultButton = new DefaultSearchResultButton(name, name, name);
+			exampleSearchResultButton.addSearchSuggestionListener(listener);
+			list.add(exampleSearchResultButton);
 		}
 		return list;
 	}

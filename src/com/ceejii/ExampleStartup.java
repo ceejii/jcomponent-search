@@ -35,7 +35,7 @@ public class ExampleStartup {
 			public void componentShown(ComponentEvent arg0) {
 			}
 		});
-		searchSuggestionComponent.addSearchSuggestionListener(new ExampleSearchSuggestionListener());
+//		searchSuggestionComponent.addSearchSuggestionListener(new ExampleSearchSuggestionListener());
 	}
 
 }

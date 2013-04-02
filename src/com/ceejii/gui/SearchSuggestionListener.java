@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 
 public interface SearchSuggestionListener {
 
-	public void ResultChosen(ActionEvent event);
+	public void resultChosen(ActionEvent event);
 	
-	public void ResultHovered(ActionEvent event);
+	public void resultHovered(ActionEvent event);
 }

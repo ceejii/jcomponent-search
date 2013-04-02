@@ -1,4 +1,4 @@
-package com.ceejii.gui.component;
+package com.ceejii.gui.data;
 
 import com.ceejii.gui.SearchSuggestionListener;
 

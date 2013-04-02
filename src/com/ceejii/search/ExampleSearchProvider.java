@@ -6,12 +6,12 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import com.ceejii.gui.component.SearchSuggestionComponent;
-import com.ceejii.gui.component.SearchSuggestionDisplayer;
+import com.ceejii.gui.component.SearchSuggestionsDisplayer;
 
 public class ExampleSearchProvider implements SearchProvider {
 
 	public void quickSearchForString(String searchString,
-			SearchSuggestionDisplayer view) {
+			SearchSuggestionsDisplayer view) {
 		//NOTE: For future Java versions the view could instead be a function pointer/lambda that handles the display of the result.
 		List<String> db = new ArrayList<String>();
 		db.add("Stockholm");
@@ -32,7 +32,7 @@ public class ExampleSearchProvider implements SearchProvider {
 	}
 
 	public void fullSearchForString(String searchString,
-			SearchSuggestionDisplayer view) {
+			SearchSuggestionsDisplayer view) {
 		System.out.println("Full search (Enter key pressed).");
 	}
 
