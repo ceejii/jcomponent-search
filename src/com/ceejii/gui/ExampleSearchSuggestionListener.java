@@ -22,4 +22,12 @@ public class ExampleSearchSuggestionListener implements SearchSuggestionListener
 		}
 	}
 
+	public void resultNoLongerHovered(ActionEvent event) {
+		if(event.getSource() instanceof SearchSuggestion) {
+			SearchSuggestion source = (SearchSuggestion) event.getSource();
+			String clue = source.getSuggestionClue();
+			System.out.println("No longer hovering " + source.getSuggestionName());
+		}
+	}
+
 }
