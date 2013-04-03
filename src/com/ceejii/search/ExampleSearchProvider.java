@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
+import com.ceejii.gui.ExampleSearchSuggestionListener;
 import com.ceejii.gui.component.SearchSuggestionComponent;
 import com.ceejii.gui.component.SearchSuggestionsDisplayer;
 
@@ -27,7 +28,7 @@ public class ExampleSearchProvider implements SearchProvider {
 				}
 			}
 		}
-		view.showSearchResults(results);
+		view.showSearchResults(results, new ExampleSearchSuggestionListener());
 
 	}
 

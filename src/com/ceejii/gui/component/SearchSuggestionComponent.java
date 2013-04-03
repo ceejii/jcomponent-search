@@ -11,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.ceejii.gui.ExampleSearchSuggestionListener;
+import com.ceejii.gui.SearchSuggestionListener;
 import com.ceejii.gui.data.SearchSuggestion;
 import com.ceejii.search.ExampleSearchProvider;
 import com.ceejii.search.SearchProvider;
@@ -76,7 +78,7 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 	}
 
 	private void buildSearchSuggestions() {
-		showSearchResults(null);
+		showSearchResults(Arrays.asList(new String[]{" "," "," "," "," "," "," "," "," "," "}), null);
 	}
 
 	private JComponent buildSearchField(Container parent) {
@@ -131,19 +133,20 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 	 * Shows the results in the search suggestion component.
 	 * 
 	 * @param names the List of name strings.
+	 * @param listener 
 	 * @param ids the List of id strings.
 	 * @param clues the list of clue strings.
 	 */
-	public void showSearchResults(List<String> names) {
+	public void showSearchResults(List<String> names, SearchSuggestionListener listener) {
 		if(names == null){
 			return;
 		}
-		List<DefaultSearchResultButton> componentList = buildSearchResultsComponentList(names);
+		List<DefaultSearchResultButton> componentList = buildSearchResultsComponentList(names, listener);
 		showSearchResultsComponents(componentList);
 		this.revalidate();
 	}
 
-	private List<DefaultSearchResultButton> buildSearchResultsComponentList(List<String> names) {
+	private List<DefaultSearchResultButton> buildSearchResultsComponentList(List<String> names, SearchSuggestionListener listener) {
 		List<DefaultSearchResultButton> list = new ArrayList<DefaultSearchResultButton>();
 		String[] namesArray = new String[names.size()];
 		namesArray = names.toArray(namesArray);
@@ -152,7 +155,6 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 //		String id;
 //		String[] cluesArray = (String[]) clues.toArray();
 //		String clue;
-		ExampleSearchSuggestionListener listener = new ExampleSearchSuggestionListener();
 		for (int i = 0; i < namesArray.length; i++) {
 			name = namesArray[i];
 //			if(idsArray.length >= i){
