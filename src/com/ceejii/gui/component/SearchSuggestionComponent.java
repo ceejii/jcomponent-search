@@ -189,6 +189,7 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 			suggestionsPanel.add(result);
 		}
 		add(suggestionsPanel);
+		this.revalidate();
 	}
 
 	public String getSearchInstruction() {
