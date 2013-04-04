@@ -1,5 +1,6 @@
 
 package com.ceejii.gui.component;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
@@ -37,14 +38,19 @@ import com.ceejii.search.SearchProvider;
 
 //DONE: Fix resizing problems that depends on how what hierarchy of containg containers exist.
 
-//TODO: Support for actions when clicking a search suggestion
+//DONE: Support for actions when clicking a search suggestion
 
-//TODO: Support for actions when hovering over a search suggestion
+//DONE: Support for actions when hovering over a search suggestion
 
 //TODO: Use nicer looking components for example search.
 
-//TODO: Decide how to handle search delays. In Searcher or SearchSuggestionComponent
+//TODO: Decide how to handle search delays. In SearchProvider or SearchSuggestionComponent
 
+//TODO: Add "supports hover" checkbox to search tools panel.
+
+//TODO: Fix alignment problem for search suggestions.
+
+//TODO: Support keyboard navigation and "clicking"
 
 
 /**
@@ -62,16 +68,49 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 
 	protected SearchProvider searchProvider;
 
+	private JTextField searchField;
+
+	private MouseListener defaultMouseListener;
+
 	public SearchSuggestionComponent(SearchProvider searchProvider){
 		if(searchProvider == null) {
 			throw new NullPointerException("SearchProvider for SearchSuggestionComponent must not be null.");
 		}
 		this.searchProvider = searchProvider;
 		setupLayout(this);
-		add(buildSearchField(this));
+		searchField = buildSearchField(this);
+		add(searchField);
+		add(buildSearchToolsPanel());
 		buildSearchSuggestions();
 	}
 	
+	private JPanel buildSearchToolsPanel() {
+		JPanel searchToolsPanel = new JPanel();
+		searchToolsPanel.setLayout(new BoxLayout(searchToolsPanel, BoxLayout.LINE_AXIS));
+		//Clear button
+		JButton clearButton = new JButton("Clear");
+		clearButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent event) {
+				clearSearch();
+			}
+		});
+		searchToolsPanel.add(clearButton);
+		
+		//Hover check box
+		
+		
+		return searchToolsPanel;
+	}
+
+	protected void clearSearch() {
+		this.searchField.setText(this.searchInstruction);
+		this.searchField.addMouseListener(this.defaultMouseListener);
+		this.searchField.addMouseListener(defaultMouseListener);
+		this.searchField.requestFocusInWindow();
+		this.suggestionsPanel.removeAll();
+		revalidate();
+	}
+
 	private void setupLayout(Container parent) {
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		this.setLayout(boxLayout);
@@ -81,10 +120,10 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 		showSearchResults(Arrays.asList(new String[]{" "," "," "," "," "," "," "," "," "," "}), null);
 	}
 
-	private JComponent buildSearchField(Container parent) {
+	private JTextField buildSearchField(Container parent) {
 		JTextField searchField = new JTextField(searchInstruction);
 		searchField.setPreferredSize(new Dimension(100,24));
-		MouseAdapter mouseListener = new MouseAdapter(){
+		this.defaultMouseListener = new MouseAdapter(){
 			@Override
 			public void mouseClicked(MouseEvent event) {
 				super.mouseClicked(event);
@@ -92,7 +131,7 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 				((JTextField)event.getSource()).removeMouseListener(this);
 			}
 		};
-		searchField.addMouseListener(mouseListener);
+		searchField.addMouseListener(defaultMouseListener);
 		KeyAdapter listener = new KeyAdapter(){
 			@Override
 			public void keyPressed(KeyEvent event) {
@@ -122,7 +161,6 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 				} else {
 					provider.quickSearchForString(searchString, component);
 				}
-				System.out.println(searchString);
 			}
 		};
 		searchField.addKeyListener(listener );

@@ -25,7 +25,6 @@ public class DefaultSearchResultButton extends JButton implements SearchSuggesti
 		this.addMouseListener(new MouseListener(){
 
 			public void mouseClicked(MouseEvent arg0) {
-				System.out.println("Mouse Clicked on button: " + DefaultSearchResultButton.this.getText() + " " + DefaultSearchResultButton.this.name);
 				searchSuggestionListener.resultChosen(new ActionEvent(DefaultSearchResultButton.this,0,DefaultSearchResultButton.this.getText()));
 			}
 
