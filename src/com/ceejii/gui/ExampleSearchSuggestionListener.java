@@ -6,6 +6,8 @@ import com.ceejii.gui.data.SearchSuggestion;
 
 public class ExampleSearchSuggestionListener implements SearchSuggestionListener {
 	
+	private boolean supportsHovering = true;
+
 	public void resultChosen(ActionEvent event) {
 		SearchSuggestion source = (SearchSuggestion) event.getSource();
 		String id = source.getSuggestionId();
@@ -13,7 +15,7 @@ public class ExampleSearchSuggestionListener implements SearchSuggestionListener
 	}
 
 	public void resultHovered(ActionEvent event) {
-		if(event.getSource() instanceof SearchSuggestion) {
+		if(supportsHovering && event.getSource() instanceof SearchSuggestion) {
 			SearchSuggestion source = (SearchSuggestion) event.getSource();
 			String clue = source.getSuggestionClue();
 			System.out.println("Hovered " + source.getSuggestionName());
@@ -21,11 +23,15 @@ public class ExampleSearchSuggestionListener implements SearchSuggestionListener
 	}
 
 	public void resultNoLongerHovered(ActionEvent event) {
-		if(event.getSource() instanceof SearchSuggestion) {
+		if(supportsHovering && event.getSource() instanceof SearchSuggestion) {
 			SearchSuggestion source = (SearchSuggestion) event.getSource();
 			String clue = source.getSuggestionClue();
 			System.out.println("No longer hovering " + source.getSuggestionName());
 		}
+	}
+
+	public void setSupportsHovering(boolean supportsHovering) {
+		this.supportsHovering  = supportsHovering;
 	}
 
 }

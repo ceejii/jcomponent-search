@@ -17,7 +17,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -42,15 +44,17 @@ import com.ceejii.search.SearchProvider;
 
 //DONE: Support for actions when hovering over a search suggestion
 
+//DONE: Add "supports hover" checkbox to search tools panel.
+
 //TODO: Use nicer looking components for example search.
 
 //TODO: Decide how to handle search delays. In SearchProvider or SearchSuggestionComponent
 
-//TODO: Add "supports hover" checkbox to search tools panel.
-
 //TODO: Fix alignment problem for search suggestions.
 
 //TODO: Support keyboard navigation and "clicking"
+
+//TODO: Fix focusing problem when clicking search field due to removed mouse listener.
 
 
 /**
@@ -71,6 +75,10 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 	private JTextField searchField;
 
 	private MouseListener defaultMouseListener;
+
+	private String supportHovering;
+
+	protected SearchSuggestionListener searchSuggestionListener;
 
 	public SearchSuggestionComponent(SearchProvider searchProvider){
 		if(searchProvider == null) {
@@ -97,7 +105,18 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 		searchToolsPanel.add(clearButton);
 		
 		//Hover check box
-		
+		JCheckBox hoverCheckBox = new JCheckBox(supportHovering);
+		hoverCheckBox.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent event) {
+				if(((JCheckBox)event.getSource()).isSelected()){
+					searchSuggestionListener.setSupportsHovering(true);
+				} else {
+					searchSuggestionListener.setSupportsHovering(false);
+				}
+			}
+		});
+		searchToolsPanel.add(hoverCheckBox);
 		
 		return searchToolsPanel;
 	}
@@ -176,15 +195,17 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 	 * @param clues the list of clue strings.
 	 */
 	public void showSearchResults(List<String> names, SearchSuggestionListener listener) {
+		this.searchSuggestionListener = listener;
 		if(names == null){
 			return;
 		}
-		List<DefaultSearchResultButton> componentList = buildSearchResultsComponentList(names, listener);
+		List<DefaultSearchResultButton> componentList = buildSearchResultsComponentList(names, this.searchSuggestionListener);
 		showSearchResultsComponents(componentList);
 		this.revalidate();
 	}
 
 	private List<DefaultSearchResultButton> buildSearchResultsComponentList(List<String> names, SearchSuggestionListener listener) {
+		this.searchSuggestionListener = listener;
 		List<DefaultSearchResultButton> list = new ArrayList<DefaultSearchResultButton>();
 		String[] namesArray = new String[names.size()];
 		namesArray = names.toArray(namesArray);
@@ -206,7 +227,7 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 //				clue = "";
 //			}
 			DefaultSearchResultButton exampleSearchResultButton = new DefaultSearchResultButton(name, name, name);
-			exampleSearchResultButton.addSearchSuggestionListener(listener);
+			exampleSearchResultButton.addSearchSuggestionListener(this.searchSuggestionListener);
 			list.add(exampleSearchResultButton);
 		}
 		return list;

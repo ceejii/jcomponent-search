@@ -33,6 +33,7 @@ public class DefaultSearchResultButton extends JButton implements SearchSuggesti
 				if(searchSuggestionListener != null){
 					searchSuggestionListener.resultHovered(new ActionEvent(DefaultSearchResultButton.this,0,DefaultSearchResultButton.this.getToolTipText()));
 				}
+				((JButton)arg0.getSource()).requestFocusInWindow();
 			}
 
 			public void mouseExited(MouseEvent arg0) {
@@ -40,6 +41,7 @@ public class DefaultSearchResultButton extends JButton implements SearchSuggesti
 				if(searchSuggestionListener != null){
 					searchSuggestionListener.resultNoLongerHovered(new ActionEvent(DefaultSearchResultButton.this,0,DefaultSearchResultButton.this.getToolTipText()));
 				}
+				((JButton)arg0.getSource()).requestFocusInWindow();
 			}
 
 			public void mousePressed(MouseEvent arg0) {

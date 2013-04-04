@@ -9,4 +9,6 @@ public interface SearchSuggestionListener {
 	public void resultHovered(ActionEvent event);
 	
 	public void resultNoLongerHovered(ActionEvent event);
+
+	public void setSupportsHovering(boolean supportsHovering);
 }
