@@ -126,7 +126,9 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 		this.searchField.addMouseListener(this.defaultMouseListener);
 		this.searchField.addMouseListener(defaultMouseListener);
 		this.searchField.requestFocusInWindow();
-		this.suggestionsPanel.removeAll();
+		if(this.suggestionsPanel != null) {
+			this.suggestionsPanel.removeAll();
+		}
 		revalidate();
 	}
 
