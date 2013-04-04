@@ -248,6 +248,7 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 			suggestionsPanel.add(result);
 		}
 		add(suggestionsPanel);
+		suggestionsPanel.repaint();
 		this.revalidate();
 	}
 
