@@ -160,7 +160,7 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 	}
 
 	private void buildSearchSuggestions() {
-		showSearchResults(Arrays.asList(new String[]{" "," "," "," "," "," "," "," "," "," "}), null);
+		showSearchResults(Arrays.asList(new String[]{}), null);
 	}
 
 	private JTextField buildSearchField(Container parent) {
