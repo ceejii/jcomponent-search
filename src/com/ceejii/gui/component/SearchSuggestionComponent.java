@@ -104,8 +104,11 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 		this.searchProvider = searchProvider;
 		setupLayout(this);
 		searchField = buildSearchField(this);
+		searchField.setAlignmentX(LEFT_ALIGNMENT);
 		add(searchField);
-		add(buildSearchToolsPanel());
+		JPanel searchToolsPanel = buildSearchToolsPanel();
+		searchToolsPanel.setAlignmentX(LEFT_ALIGNMENT);
+		add(searchToolsPanel);
 		buildSearchSuggestions();
 	}
 	
@@ -279,6 +282,7 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 		} else {
 			suggestionsPanel.removeAll();
 		}
+		suggestionsPanel.setAlignmentX(LEFT_ALIGNMENT);
 		BoxLayout boxLayout = new BoxLayout(suggestionsPanel, BoxLayout.PAGE_AXIS);
 		suggestionsPanel.setLayout(boxLayout);
 		for (JComponent result : results) {
