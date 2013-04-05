@@ -20,7 +20,8 @@ public class ExampleStartup {
 		final JFrame window = new JFrame("Sökförslag");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLayout(new FlowLayout());
-		SearchSuggestionComponent searchSuggestionComponent = new SearchSuggestionComponent(new ExampleSearchProvider());
+		SearchSuggestionComponent searchSuggestionComponent = new SearchSuggestionComponent(new ExampleSearchProvider(), window);
+		searchSuggestionComponent.setSupportsHoveringDescription("Do something on hover");
 		window.getContentPane().add(searchSuggestionComponent);
 		window.pack();
 		window.setVisible(true);

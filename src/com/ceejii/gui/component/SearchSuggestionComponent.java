@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -21,6 +22,7 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -76,9 +78,23 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 
 	private MouseListener defaultMouseListener;
 
-	private String supportHovering;
-
 	protected SearchSuggestionListener searchSuggestionListener;
+
+	private JFrame parentFrame;
+
+	private JDialog parentDialog;
+
+	private JCheckBox hoverCheckBox;
+
+	public SearchSuggestionComponent(SearchProvider searchProvider, JFrame frame){
+		this(searchProvider);
+		this.parentFrame = frame;
+	}
+
+	public SearchSuggestionComponent(SearchProvider searchProvider, JDialog dialog){
+		this(searchProvider);
+		this.parentDialog = dialog;
+	}
 
 	public SearchSuggestionComponent(SearchProvider searchProvider){
 		if(searchProvider == null) {
@@ -105,14 +121,16 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 		searchToolsPanel.add(clearButton);
 		
 		//Hover check box
-		JCheckBox hoverCheckBox = new JCheckBox(supportHovering);
+		this.hoverCheckBox = new JCheckBox("Hover active");
 		hoverCheckBox.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent event) {
-				if(((JCheckBox)event.getSource()).isSelected()){
-					searchSuggestionListener.setSupportsHovering(true);
-				} else {
-					searchSuggestionListener.setSupportsHovering(false);
+				if (searchSuggestionListener != null) {
+					if(((JCheckBox)event.getSource()).isSelected()){
+						searchSuggestionListener.setSupportsHovering(true);
+					} else {
+						searchSuggestionListener.setSupportsHovering(false);
+					}
 				}
 			}
 		});
@@ -124,7 +142,6 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 	protected void clearSearch() {
 		this.searchField.setText(this.searchInstruction);
 		this.searchField.addMouseListener(this.defaultMouseListener);
-		this.searchField.addMouseListener(defaultMouseListener);
 		this.searchField.requestFocusInWindow();
 		if(this.suggestionsPanel != null) {
 			this.suggestionsPanel.removeAll();
@@ -162,18 +179,16 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 				if(searchStringBeforeKeyPress.equals(searchInstruction)){
 					//Key pressed in search field but the search field contains the default instruction, remove the default text first!
 					jTextField.setText("");
-					//Remove all mouselisteners so a mouse-click won't remove the search instruction as well.
-					//NOTE: Assumes there is only one mouselistener that removes search instruction.
-					MouseListener[] mouseListeners = jTextField.getMouseListeners();
-					for (int i = 0; i < mouseListeners.length; i++) {
-						jTextField.removeMouseListener(mouseListeners[i]);
-					}
+					jTextField.removeMouseListener(defaultMouseListener);
 				}
 			}
 			@Override
 			public void keyReleased(KeyEvent event) {
 				// Handles normal key entry by searching for the string.
 				super.keyPressed(event);
+				if(event.getKeyCode() == KeyEvent.VK_ESCAPE){
+					closeParent();
+				}
 				String searchString = ((JTextField)event.getSource()).getText();
 				SearchSuggestionComponent component =SearchSuggestionComponent.this;
 				SearchProvider provider = component.searchProvider;
@@ -188,6 +203,13 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 		return searchField;
 	}
 
+	private void closeParent() {
+		if(this.parentFrame != null) {
+			parentFrame.dispose();
+		} else if(this.parentDialog != null) {
+			parentDialog.dispose();
+		}  
+	}
 	/**
 	 * Shows the results in the search suggestion component.
 	 * 
@@ -262,4 +284,7 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 		this.searchInstruction = searchInstruction;
 	}
 
+	public void setSupportsHoveringDescription(String supportsHoveringDescription) {
+		this.hoverCheckBox.setText(supportsHoveringDescription);
+	}
 }
