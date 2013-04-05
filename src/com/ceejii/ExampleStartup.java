@@ -23,6 +23,7 @@ public class ExampleStartup {
 		SearchSuggestionComponent searchSuggestionComponent = new SearchSuggestionComponent(new ExampleSearchProvider(), window);
 		searchSuggestionComponent.setSearchInstruction("Enter search text");
 		searchSuggestionComponent.setSupportsHoveringDescription("Do something on hover");
+		searchSuggestionComponent.setMaxSearchSuggestionsCount(8);
 		window.getContentPane().add(searchSuggestionComponent);
 		window.pack();
 		window.setVisible(true);

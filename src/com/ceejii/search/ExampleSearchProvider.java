@@ -12,7 +12,7 @@ import com.ceejii.gui.component.SearchSuggestionsDisplayer;
 public class ExampleSearchProvider implements SearchProvider {
 
 	public void quickSearchForString(String searchString,
-			SearchSuggestionsDisplayer view) {
+			SearchSuggestionsDisplayer view, int resultCount) {
 		//NOTE: For future Java versions the view could instead be a function pointer/lambda that handles the display of the result.
 		List<String> db = new ArrayList<String>();
 		db.add("Stockholm");
@@ -27,6 +27,9 @@ public class ExampleSearchProvider implements SearchProvider {
 					results.add(line);
 				}
 			}
+		}
+		if(results.size() > resultCount) {
+			results = results.subList(0, resultCount);
 		}
 		view.showSearchResults(results, new ExampleSearchSuggestionListener());
 

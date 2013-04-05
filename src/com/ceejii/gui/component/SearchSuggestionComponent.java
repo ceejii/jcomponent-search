@@ -25,7 +25,10 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import com.ceejii.gui.ExampleSearchSuggestionListener;
 import com.ceejii.gui.SearchSuggestionListener;
@@ -87,6 +90,10 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 
 	private JCheckBox hoverCheckBox;
 
+	protected JSpinner searchCountSpinner;
+
+	protected boolean updateSearchResultWhenCountChanges = true;
+
 	public SearchSuggestionComponent(SearchProvider searchProvider, JFrame frame){
 		this(searchProvider);
 		this.parentFrame = frame;
@@ -144,6 +151,23 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 		});
 		searchToolsPanel.add(hoverCheckBox);
 		
+		//Spinner for search count
+		this.searchCountSpinner = new JSpinner();
+		searchCountSpinner.setValue(10);
+		searchCountSpinner.addChangeListener(new ChangeListener(){
+
+			public void stateChanged(ChangeEvent event) {
+				int resultCount = (Integer) ((JSpinner)event.getSource()).getValue();
+				SearchSuggestionComponent suggestionComponent = SearchSuggestionComponent.this;
+				if(suggestionComponent.updateSearchResultWhenCountChanges ){
+					String searchString = suggestionComponent.searchField.getText();
+					if(!searchString.equals(suggestionComponent.searchInstruction)){
+						suggestionComponent.searchProvider.quickSearchForString(searchString, suggestionComponent, resultCount);
+					}
+				}
+			}
+		});
+		searchToolsPanel.add(searchCountSpinner);
 		return searchToolsPanel;
 	}
 
@@ -203,7 +227,8 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 				if(event.getKeyCode() == KeyEvent.VK_ENTER){
 					provider.fullSearchForString(searchString, component);
 				} else {
-					provider.quickSearchForString(searchString, component);
+					int resultCount = (Integer) SearchSuggestionComponent.this.searchCountSpinner.getValue();
+					provider.quickSearchForString(searchString, component, resultCount);
 				}
 			}
 		};
@@ -309,5 +334,9 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 
 	public void setSupportsHoveringDescription(String supportsHoveringDescription) {
 		this.hoverCheckBox.setText(supportsHoveringDescription);
+	}
+	
+	public void setMaxSearchSuggestionsCount(int maxSuggestionCount) {
+		this.searchCountSpinner.setValue(maxSuggestionCount);
 	}
 }

@@ -5,7 +5,7 @@ import com.ceejii.gui.component.SearchSuggestionsDisplayer;
 
 public interface SearchProvider {
 
-	void quickSearchForString(String searchString, SearchSuggestionsDisplayer view);
+	void quickSearchForString(String searchString, SearchSuggestionsDisplayer view, int resultCount);
 
 	void fullSearchForString(String searchString,
 			SearchSuggestionsDisplayer view);
