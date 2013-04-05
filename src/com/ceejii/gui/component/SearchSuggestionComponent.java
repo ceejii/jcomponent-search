@@ -52,13 +52,13 @@ import com.ceejii.search.SearchProvider;
 
 //DONE: Support keyboard navigation and "clicking"
 
+//DONE: Fix incorrect state sometimes for hover checkbox.
+
 //TODO: Decide how to handle search delays. In SearchProvider or SearchSuggestionComponent
 
 //TODO: Fix alignment problem for search suggestions.
 
 //TODO: Use nicer looking components for example search.
-
-//TODO: Fix incorrect state sometimes for hover checkbox.
 
 /**
  * Copyright Christoffer Jonsson. All rights reserved. 
@@ -123,6 +123,10 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 		
 		//Hover check box
 		this.hoverCheckBox = new JCheckBox("Hover active");
+		this.hoverCheckBox.setSelected(true);
+		if(searchSuggestionListener != null){
+			searchSuggestionListener.setSupportsHovering(true);
+		}
 		hoverCheckBox.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent event) {
@@ -220,7 +224,7 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 	 * @param clues the list of clue strings.
 	 */
 	public void showSearchResults(List<String> names, SearchSuggestionListener listener) {
-		this.searchSuggestionListener = listener;
+		this.setSearchSuggestionListener(listener);
 		if(names == null){
 			return;
 		}
@@ -229,8 +233,19 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 		this.revalidate();
 	}
 
-	private List<DefaultSearchResultButton> buildSearchResultsComponentList(List<String> names, SearchSuggestionListener listener) {
+	private void setSearchSuggestionListener(SearchSuggestionListener listener) {
 		this.searchSuggestionListener = listener;
+		if(hoverCheckBox != null && searchSuggestionListener != null) {
+			if(hoverCheckBox.isSelected()) {
+				this.searchSuggestionListener.setSupportsHovering(true);
+			} else {
+				this.searchSuggestionListener.setSupportsHovering(false);
+			}
+		}
+	}
+
+	private List<DefaultSearchResultButton> buildSearchResultsComponentList(List<String> names, SearchSuggestionListener listener) {
+		this.setSearchSuggestionListener(listener);
 		List<DefaultSearchResultButton> list = new ArrayList<DefaultSearchResultButton>();
 		String[] namesArray = new String[names.size()];
 		namesArray = names.toArray(namesArray);
