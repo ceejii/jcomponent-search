@@ -12,6 +12,7 @@ public class ExampleSearchSuggestionListener implements SearchSuggestionListener
 		SearchSuggestion source = (SearchSuggestion) event.getSource();
 		String id = source.getSuggestionId();
 		String name = source.getSuggestionName();
+		System.out.println("Result " + name + " chosen");
 	}
 
 	public void resultHovered(ActionEvent event) {

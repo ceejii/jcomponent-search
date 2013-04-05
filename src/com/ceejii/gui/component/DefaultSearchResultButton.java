@@ -1,6 +1,7 @@
 package com.ceejii.gui.component;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -22,12 +23,18 @@ public class DefaultSearchResultButton extends JButton implements SearchSuggesti
 		this.id = id;
 		this.clue = clue;
 		this.setToolTipText(this.clue);
-		this.addMouseListener(new MouseListener(){
-
-			public void mouseClicked(MouseEvent arg0) {
-				searchSuggestionListener.resultChosen(new ActionEvent(DefaultSearchResultButton.this,0,DefaultSearchResultButton.this.getText()));
+		
+		this.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				searchSuggestionListener.resultChosen(new ActionEvent(
+						DefaultSearchResultButton.this, 0,
+						DefaultSearchResultButton.this.getText()));
 			}
-
+		});
+		
+		this.addMouseListener(new MouseListener(){
+			public void mouseClicked(MouseEvent arg0) {
+			}
 			public void mouseEntered(MouseEvent arg0) {
 				System.out.println("Mouse Entered over button: " + DefaultSearchResultButton.this.getText() + " " + DefaultSearchResultButton.this.name);
 				if(searchSuggestionListener != null){
@@ -35,7 +42,6 @@ public class DefaultSearchResultButton extends JButton implements SearchSuggesti
 				}
 				((JButton)arg0.getSource()).requestFocusInWindow();
 			}
-
 			public void mouseExited(MouseEvent arg0) {
 				System.out.println("Mouse Exited over button: " + DefaultSearchResultButton.this.getText() + " " + DefaultSearchResultButton.this.name);
 				if(searchSuggestionListener != null){
@@ -43,10 +49,8 @@ public class DefaultSearchResultButton extends JButton implements SearchSuggesti
 				}
 				((JButton)arg0.getSource()).requestFocusInWindow();
 			}
-
 			public void mousePressed(MouseEvent arg0) {
 			}
-
 			public void mouseReleased(MouseEvent arg0) {
 			}
 		});

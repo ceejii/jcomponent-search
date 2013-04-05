@@ -48,16 +48,17 @@ import com.ceejii.search.SearchProvider;
 
 //DONE: Add "supports hover" checkbox to search tools panel.
 
-//TODO: Use nicer looking components for example search.
+//DONE: Fix focusing problem when clicking search field due to removed mouse listener.
+
+//DONE: Support keyboard navigation and "clicking"
 
 //TODO: Decide how to handle search delays. In SearchProvider or SearchSuggestionComponent
 
 //TODO: Fix alignment problem for search suggestions.
 
-//TODO: Support keyboard navigation and "clicking"
+//TODO: Use nicer looking components for example search.
 
-//TODO: Fix focusing problem when clicking search field due to removed mouse listener.
-
+//TODO: Fix incorrect state sometimes for hover checkbox.
 
 /**
  * Copyright Christoffer Jonsson. All rights reserved. 
