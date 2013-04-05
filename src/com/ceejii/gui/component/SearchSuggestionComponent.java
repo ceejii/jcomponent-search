@@ -296,8 +296,11 @@ public class SearchSuggestionComponent extends JPanel implements SearchSuggestio
 		return searchInstruction;
 	}
 
-	public void setSearchInstruction(String searchInstruction) {
-		this.searchInstruction = searchInstruction;
+	public void setSearchInstruction(String newSearchInstruction) {
+		if(this.searchField.getText().equals(this.searchInstruction)) {
+			this.searchField.setText(newSearchInstruction);
+		}
+		this.searchInstruction = newSearchInstruction;
 	}
 
 	public void setSupportsHoveringDescription(String supportsHoveringDescription) {

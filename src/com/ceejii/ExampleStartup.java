@@ -21,6 +21,7 @@ public class ExampleStartup {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLayout(new FlowLayout());
 		SearchSuggestionComponent searchSuggestionComponent = new SearchSuggestionComponent(new ExampleSearchProvider(), window);
+		searchSuggestionComponent.setSearchInstruction("Enter search text");
 		searchSuggestionComponent.setSupportsHoveringDescription("Do something on hover");
 		window.getContentPane().add(searchSuggestionComponent);
 		window.pack();
