@@ -45,4 +45,4 @@ None.
 1.5 or later.
 
 #License
-All rights reserved. To be changed to some open-source license in the future.
+BSD 3-clause license. See LICENSE file.
