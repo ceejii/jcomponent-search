@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
+<jardesc>
+    <jar path="SearchSuggestions/dist/jcomponent-search-0.2.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/SearchSuggestions/jcomponent-search.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" mainClassHandleIdentifier="=SearchSuggestions/src&lt;com.ceejii{ExampleStartup.java[ExampleStartup" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
+        <file path="/SearchSuggestions/.gitignore"/>
+        <javaElement handleIdentifier="=SearchSuggestions/src"/>
+        <file path="/SearchSuggestions/README.md"/>
+        <file path="/SearchSuggestions/.classpath"/>
+        <file path="/SearchSuggestions/.project"/>
+    </selectedElements>
+</jardesc>

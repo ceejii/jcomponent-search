@@ -57,9 +57,9 @@ import com.ceejii.search.SearchProvider;
 
 //DONE: Fix incorrect state sometimes for hover checkbox.
 
-//TODO: Decide how to handle search delays. In SearchProvider or SearchSuggestionComponent
+//DONE: Fix alignment problem for search suggestions.
 
-//TODO: Fix alignment problem for search suggestions.
+//TODO: Decide how to handle search delays. In SearchProvider or SearchSuggestionComponent
 
 //TODO: Use nicer looking components for example search.
 
