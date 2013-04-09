@@ -14,7 +14,6 @@ user either selects a search results or if the user starts or stops hovering the
 * Delay between search and last keypress
 * Example styled search suggestion
 * JavaDoc
-* Handle number of displayed suggestions somehow
 
 #Known issues
 None.
