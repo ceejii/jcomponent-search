@@ -17,11 +17,12 @@ public class ExampleSearchProvider implements SearchProvider {
 	private SearchSuggestionsDisplayer view;
 	private int resultCount;
 	private List<String> db;
+	private static Object lock = new Object();
 
 	public void quickSearchForString(String searchString,
 			SearchSuggestionsDisplayer view, int resultCount) {
 		int searchDelayMilliSec = 400;
-		synchronized (new Object()) {
+		synchronized (lock) {
 			this.searchString = searchString;
 		}
 		this.view = view;
@@ -70,7 +71,7 @@ public class ExampleSearchProvider implements SearchProvider {
 		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				synchronized (new Object()) {
+				synchronized (lock) {
 					if(originalSearchString.equals(ExampleSearchProvider.this.searchString)) {
 							ExampleSearchProvider.this.search(originalSearchString);
 					}
