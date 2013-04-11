@@ -14,7 +14,6 @@ user either selects a search results or if the user starts or stops hovering the
 * Delay between search and last keypress
 * Example styled search suggestion
 * JavaDoc
-* Handle number of displayed suggestions somehow
 
 #Known issues
 None.
@@ -31,7 +30,7 @@ to it. Give your implementation of SearchProvider as parameter to the SearchSugg
 with window.pack; (Where window is the container you put the SearchSuggestionComponent in. This resizes your panel 
 when the number of search suggestions change or their size change.
 5. Create a SearchSuggestionListener that does whatever you want to do when a search suggestion is clicked or hovered.
-6. 
+
 ## Implementing your own JComponent for SearchSuggestions
 1. Create a new class that extends JComponent and implements SearchSuggestion
 
